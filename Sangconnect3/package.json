@@ -1,0 +1,16 @@
+{
+  "name": "sangconnect3",
+  "version": "1.0.0",
+  "description": "Application SangConnect",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
