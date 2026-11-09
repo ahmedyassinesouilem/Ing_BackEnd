@@ -1,41 +1,29 @@
 import * as donneurService from "../services/donneur.service.js";
+import { HttpError } from "../errors/HttpError.js";
 
-
-export function getAll(req, res) {
-    const donneurs = donneurService.getAll();
-
-    res.json(donneurs);
+export function getDonneurs(req, res) {
+    res.json(donneurService.getAll(req.query.groupeSanguin));
 }
 
-
-export function getById(req, res) {
-    const id = Number(req.params.id);
-
-    const donneur = donneurService.getById(id);
-
-    if (!donneur) {
-        return res.status(404).json({
-            message: "Donneur introuvable"
-        });
-    }
-
+export function getDonneurById(req, res) {
+    const donneur = donneurService.getById(req.params.id);
+    if (!donneur) throw new HttpError(404, "Donneur introuvable");
     res.json(donneur);
 }
 
+export function createDonneur(req, res) {
+    res.status(201).json(donneurService.create(req.body));
+}
 
-export function DeleteById(req, res) {
-    const id = Number(req.params.id);
+export function updateDonneur(req, res) {
+    const donneur = donneurService.update(req.params.id, req.body);
+    if (!donneur) throw new HttpError(404, "Donneur introuvable");
+    res.json(donneur);
+}
 
-    const donneur = donneurService.DeleteById(id);
-
-    if (!donneur) {
-        return res.status(404).json({
-            message: "Donneur introuvable"
-        });
+export function deleteDonneur(req, res) {
+    if (!donneurService.remove(req.params.id)) {
+        throw new HttpError(404, "Donneur introuvable");
     }
-
-    res.json({
-        message: "Donneur supprimé avec succès",
-        donneur: donneur
-    });
+    res.status(204).send();
 }

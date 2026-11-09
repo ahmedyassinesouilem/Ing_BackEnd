@@ -1,6 +1,7 @@
 import express from "express";
 
 import donneurRoutes from "./routes/donneur.routes.js";
+import { errorHandler } from "./middlewares/errorHandler.js";
 
 const app = express();
 
@@ -19,3 +20,7 @@ app.use("/api/donneurs", donneurRoutes);
 app.listen(PORT, () => {
     console.log(`Serveur démarré sur http://localhost:${PORT}`);
 });
+
+
+app.use("/api/donneurs", donneurRoutes);
+app.use(errorHandler);   
