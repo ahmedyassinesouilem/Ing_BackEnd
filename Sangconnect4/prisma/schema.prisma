@@ -1,0 +1,39 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Donneur {
+  id            Int    @id @default(autoincrement())
+  nom           String
+  prenom        String
+  groupeSanguin String
+  telephone     String?
+
+  dons Don[]
+}
+
+model Centre {
+  id        Int    @id @default(autoincrement())
+  nom       String
+  ville     String
+
+  dons      Don[]
+}
+
+
+model Don {
+  id        Int      @id @default(autoincrement())
+  dateDon   DateTime @default(now())
+  volume    Int
+
+  donneurId Int
+  centreId  Int
+
+  donneur   Donneur  @relation(fields: [donneurId], references: [id])
+  centre    Centre   @relation(fields: [centreId], references: [id])
+}

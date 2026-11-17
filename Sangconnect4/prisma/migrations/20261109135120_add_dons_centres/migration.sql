@@ -1,0 +1,28 @@
+-- AlterTable
+ALTER TABLE `Donneur` ADD COLUMN `telephone` VARCHAR(191) NULL;
+
+-- CreateTable
+CREATE TABLE `Centre` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `nom` VARCHAR(191) NOT NULL,
+    `ville` VARCHAR(191) NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- CreateTable
+CREATE TABLE `Don` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `dateDon` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `volume` INTEGER NOT NULL,
+    `donneurId` INTEGER NOT NULL,
+    `centreId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
+-- AddForeignKey
+ALTER TABLE `Don` ADD CONSTRAINT `Don_donneurId_fkey` FOREIGN KEY (`donneurId`) REFERENCES `Donneur`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Don` ADD CONSTRAINT `Don_centreId_fkey` FOREIGN KEY (`centreId`) REFERENCES `Centre`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
